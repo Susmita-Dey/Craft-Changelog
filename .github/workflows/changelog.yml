@@ -4,6 +4,8 @@ on:
         types:
             - opened
             - synchronize
+permissions:
+    contents: write
 jobs:
     craft-changelog:
         runs-on: ubuntu-latest
