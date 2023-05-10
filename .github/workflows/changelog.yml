@@ -4,28 +4,28 @@ on:
         types:
             - opened
             - synchronize
-        jobs:
-            craft-changelog:
-                runs-on: ubuntu-latest
-                steps:
-                    - name: Checkout Repository
-                      uses: actions/checkout@v2
+            jobs:
+                craft-changelog:
+                    runs-on: ubuntu-latest
+                    steps:
+                        - name: Checkout Repository
+                          uses: actions/checkout@v2
 
-                    - name: Generate Changelog
-                      id: changelog
-                      run: |
-                        git fetch origin pull/${{ github.event.pull_request.number }}/merge --quiet
-                        git log --format="- %s" HEAD..FETCH_HEAD > changelog.txt
-                        echo "::set-output name=changelog::$(cat changelog.txt)"
+                        - name: Generate Changelog
+                          id: changelog
+                          run: |
+                            git fetch origin pull/${{ github.event.pull_request.number }}/merge --quiet
+                            git log --format="- %s" HEAD..FETCH_HEAD > changelog.txt
+                            echo "::set-output name=changelog::$(cat changelog.txt)"
 
-                    - name: Commit Changelog
-                      run: |
-                        git config --global user.name "Susmita-Dey"
-                        git config --global user.email "susmitadey475@gmail.com"
-                        git add changelog.txt
-                        git commit -m "Update changelog" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
+                        - name: Commit Changelog
+                          run: |
+                            git config --global user.name "Susmita-Dey"
+                            git config --global user.email "susmitadey475@gmail.com"
+                            git add changelog.txt
+                            git commit -m "Update changelog" --author="${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
             
-                    - name: Push Changes
-                      uses: ad-m/github-push-action@master
-                      with:
-                        branch: ${{ github.head_ref }}
+                        - name: Push Changes
+                          uses: ad-m/github-push-action@master
+                          with:
+                            branch: ${{ github.head_ref }}
